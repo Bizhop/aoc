@@ -1,6 +1,7 @@
 package fi.bizhop.aoc25.day1;
 
 import com.google.common.io.Files;
+import com.google.common.io.Resources;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,7 +21,7 @@ public class Day1 {
                 "L99\n" +
                 "R14\n" +
                 "L82"
-                : Files.asCharSource(new File("src/main/resources/day1input.txt"), StandardCharsets.UTF_8).read();
+                : Resources.toString(Resources.getResource("day1input.txt"), StandardCharsets.UTF_8);
 
         System.out.println("Day 1 solution: " + solve(input));
         System.out.println("Day 1, part 2 solution: " + solvePart2(input));
