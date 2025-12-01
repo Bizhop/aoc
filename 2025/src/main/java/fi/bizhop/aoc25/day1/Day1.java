@@ -8,70 +8,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 public class Day1 {
-    private static final int DIAL_VALUE_MIN = 0;
-    private static final int DIAL_VALUE_MAX = 99;
-    private static final int DIAL_VALUE_OVERTURN_ADJUSTMENT = DIAL_VALUE_MAX - DIAL_VALUE_MIN + 1;
-
-    static class Dial {
-        int value;
-
-        Dial(int value) {
-            this.value = value;
-        }
-
-        //returns the dial value
-        int turnLeft(int steps) {
-            if(steps < 0) throw new RuntimeException("Only positive values allowed in steps");
-            this.value = this.value - steps;
-            while (this.value < DIAL_VALUE_MIN) {
-                this.value += DIAL_VALUE_OVERTURN_ADJUSTMENT;
-            }
-            return this.value;
-        }
-
-        //returns the times the dial hit min value
-        int turnLeftPart2(int steps) {
-            if(steps < 0) throw new RuntimeException("Only positive values allowed in steps");
-            int numberOfHits = 0;
-            int startValue = this.value;
-            int targetValue = this.value - steps;
-            while (targetValue < DIAL_VALUE_MIN) {
-                targetValue += DIAL_VALUE_OVERTURN_ADJUSTMENT;
-                numberOfHits++;
-            }
-            this.value = targetValue;
-            if(startValue == DIAL_VALUE_MIN) {
-                numberOfHits--;
-            }
-            if(this.value == DIAL_VALUE_MIN) {
-                numberOfHits++;
-            }
-            return numberOfHits;
-        }
-
-        //returns the dial value
-        int turnRight(int steps) {
-            if(steps < 0) throw new RuntimeException("Only positive values allowed in steps");
-            this.value = this.value + steps;
-            while(this.value > DIAL_VALUE_MAX) {
-                this.value -= DIAL_VALUE_OVERTURN_ADJUSTMENT;
-            }
-            return value;
-        }
-
-        //returns the times the dial hit min value
-        int turnRightPart2(int steps) {
-            if(steps < 0) throw new RuntimeException("Only positive values allowed in steps");
-            int numberOfHits = 0;
-            this.value = this.value + steps;
-            while(this.value > DIAL_VALUE_MAX) {
-                this.value -= DIAL_VALUE_OVERTURN_ADJUSTMENT;
-                numberOfHits++;
-            }
-            return numberOfHits;
-        }
-    }
-
     public void solve(boolean testInput) throws IOException {
         var input = testInput
                 ? "L68\n" +
@@ -97,7 +33,7 @@ public class Day1 {
         return instructionList.stream()
                 .map(Instruction::parseInstruction)
                 .map(instruction -> {
-                    return DIAL_VALUE_MIN == switch (instruction.direction) {
+                    return Dial.DIAL_VALUE_MIN == switch (instruction.direction) {
                         case "L" -> dial.turnLeft(instruction.steps);
                         case "R" -> dial.turnRight(instruction.steps);
                         default -> throw new RuntimeException("Invalid instruction: %s".formatted(instruction));
