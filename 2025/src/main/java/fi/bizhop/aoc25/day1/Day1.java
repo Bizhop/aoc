@@ -1,9 +1,7 @@
 package fi.bizhop.aoc25.day1;
 
-import com.google.common.io.Files;
 import com.google.common.io.Resources;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
