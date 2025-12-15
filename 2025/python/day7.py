@@ -13,9 +13,9 @@ def read_input():
     beam_start_index = 0
     splitter_lines = []
     for line in lines:
-        if line.__contains__("S"):
+        if "S" in line:
             beam_start_index = line.find("S")
-        elif line.__contains__("^"):
+        elif "^" in line:
             splitter_lines.append(find_splitter_positions(line))
 
     return beam_start_index, splitter_lines
@@ -24,7 +24,7 @@ def split_beams_as_set(beam_input: list, splitter_line: list):
     output = set()
     number_of_splits = 0
     for beam in beam_input:
-        if splitter_line.__contains__(beam):
+        if beam in splitter_line:
             output.add(beam - 1)
             output.add(beam + 1)
             number_of_splits += 1
@@ -35,17 +35,17 @@ def split_beams_as_set(beam_input: list, splitter_line: list):
 def split_beams_as_dict(beam_input: dict, splitter_line: list):
     output = {}
     for key, value in beam_input.items():
-        if splitter_line.__contains__(key):
-            if output.keys().__contains__(key - 1):
+        if key in splitter_line:
+            if (key - 1) in output:
                 output[key - 1] += value
             else:
                 output[key - 1] = value
-            if output.keys().__contains__(key + 1):
+            if (key + 1) in output:
                 output[key + 1] += value
             else:
                 output[key + 1] = value
         else:
-            if output.keys().__contains__(key):
+            if key in output:
                 output[key] += value
             else:
                 output[key] = value
@@ -71,12 +71,10 @@ def part2():
         output = split_beams_as_dict(beam_input, splitter_line)
         beam_input = output
 
-    total = 0
-    for value in beam_input.values():
-        total += value
+    total = sum(beam_input.values())
 
     print(total)
 
 if __name__ == "__main__":
-    #part1()
+    part1()
     part2()
